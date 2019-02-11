@@ -1,0 +1,24 @@
+#!/bin/bash
+##Dears, don't touch or remove this file - it is for backup!
+TIMEDUMP=`date '+%F'`
+
+sites=( \
+	sitename#/path-to-site \
+        sitename#/path-to-site \
+)
+
+getparam() {
+  sitename=$(echo $1 | cut -f 1 -d "#")
+  server_root=$(echo $1 | cut -f 2 -d "#")
+}
+
+for i in ${sites[@]}
+do
+  getparam $i
+  echo $sitename
+  cd $server_root
+  tar -czf $sitename-$TIMEDUMP.tar.gz. .
+  mv $sitename-$TIMEDUMP.tar.gz. /root/backup/sites/$sitename
+done
+
+find /root/backup/sites -mtime +10 -exec rm -f {} \;

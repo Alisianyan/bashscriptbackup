@@ -1,0 +1,15 @@
+#!/usr/local/bin/bash
+
+##Dears, don't touch or remove this file - it is for backup!
+DIR=/root/backup/databases
+TIMENAME=`date +%d.%m.%Y-%H.%M`
+DBUSER= ##insert here
+MYSQLPASSWORD= ##insert here
+DATABASENAME= ##insert here
+cd $DIR
+BACKUPDIR=`pwd`
+TIMEDUMP=`date '+%T %x'`
+mysqldump -u $DBUSER -p$MYSQQLPASSWORD $DATABASENAME | gzip -c > "$DIR/$DATABASENAME-$TIMENAME-db.gz"
+find $DIR -mtime +10  -exec rm -f {} \;
+
+
